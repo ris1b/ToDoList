@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ris1b.todo_withdb.common.BaseEntity;
 import ris1b.todo_withdb.tasks.TaskEntity;
 
 @Entity(name = "notes")  // This class represents a Table
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoteEntity extends BaseEntity {

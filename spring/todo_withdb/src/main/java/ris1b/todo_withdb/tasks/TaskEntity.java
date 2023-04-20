@@ -32,7 +32,6 @@ public class TaskEntity extends BaseEntity {
     @Column(name = "done", nullable = false, columnDefinition = "boolean default false")
     boolean done;
 
-    // Notes and Task are not related to each other yet->
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     List<NoteEntity> notes;
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.util.Date;
 
-/*We have created this same DTO for all kinds of Data Transfer !*/
+/*We have created this DTO for all kinds of Data Transfer !*/
 @Data
 public class TaskDto {
 

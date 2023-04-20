@@ -18,16 +18,16 @@ public class TasksController {
         this.tasksService = tasksService;
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     ResponseEntity<List<TaskDto>> getAllTasks() {
-        var tasks   = tasksService.getAllTasks();
+        var tasks = tasksService.getAllTasks();
         return ResponseEntity.ok(tasks);
     }
 
     /*
     * When creating a new task also, we expect the request body to be TaskDto.
     * */
-    @PostMapping("")
+    @PostMapping("/")
     ResponseEntity<TaskDto> createNewTask(@RequestBody TaskDto task) {
         var savedTask = tasksService.createNewTask(task);
         /*Created and it returns a URI
@@ -43,17 +43,30 @@ public class TasksController {
         return ResponseEntity.ok(task);  // response entity is okay, and we've put tasks into it.
     }
 
-    @PatchMapping("/{id}")
-    void updateTaskById(@PathVariable Long id) {
+    @PutMapping("/{id}")
+    ResponseEntity<TaskDto> updateTaskById(@PathVariable Long id, @RequestBody TaskDto task) {
+        var updatedTask = tasksService.updateTaskById(id, task);
+        return ResponseEntity.ok(updatedTask);
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<String> deleteTaskById(@PathVariable Long id) {
+        tasksService.deleteTaskById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted task with ID " + id + " successfully");
+    }
+
+    @DeleteMapping("/")
+    ResponseEntity<String> deleteAllTasks(){
+        tasksService.deleteAllTasks();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted all Tasks successfully");
+    }
 
     @ExceptionHandler({
             TasksService.TaskNotFoundException.class,
             TasksService.TaskAlreadyExistsException.class,
             TasksService.TaskInvalidException.class
     })
-    ResponseEntity<ErrorResponseDto> handleError(Exception e) {
+    public ResponseEntity<ErrorResponseDto> handleError(Exception e) {
         HttpStatus errorStatus;
 
         if (e instanceof TasksService.TaskNotFoundException) {
